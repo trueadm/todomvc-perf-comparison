@@ -1,3 +1,5 @@
+
+
 var app = app || {};
 
 (function () {
@@ -10,9 +12,19 @@ var app = app || {};
     };
     
     // List of Todos
-    var list = [];
+    app.storageKey = "todos-mithril"
+
     app.TodoList = function() {
-        return list;
+        var tmp = window.localStorage.getItem(app.storageKey)
+        var list = [] //tmp ? JSON.parse(tmp).map(function(data) { return new app.Todo(data) }) : [];
+        return list
     };
 
+	app.TodoList.save = function(list) {
+		//don't block
+		setTimeout(function() {
+			window.localStorage.setItem(app.storageKey, JSON.stringify(list))
+		}, 0)
+	}
 })();
+
