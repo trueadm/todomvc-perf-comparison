@@ -20,5 +20,11 @@ var app = app || {};
         return list
     };
 
+	app.TodoList.save = function(list) {
+		//don't block
+		setTimeout(function() {
+			window.localStorage.setItem(app.storageKey, JSON.stringify(list))
+		}, 0)
+	}
 })();
 

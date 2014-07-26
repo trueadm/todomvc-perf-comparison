@@ -16,7 +16,7 @@ var app = app || {};
             if(this.title()) {
                 this.list.push(new app.Todo({title: title()}));
                 this.title('');
-                window.localStorage.setItem(app.storageKey, JSON.stringify(self.list))
+				app.TodoList.save(this.list)
             }
         };
 
@@ -37,7 +37,7 @@ var app = app || {};
         // Removing a Todo from the list
         this.remove = function(key) {
             this.list.splice(key, 1)
-            window.localStorage.setItem(app.storageKey, JSON.stringify(self.list))
+			app.TodoList.save(this.list)
         }
 
         // Remove all Todos where Completed == true
@@ -46,7 +46,7 @@ var app = app || {};
                 if(this.list[i].completed())
                     this.list.splice(i, 1)
             }
-            window.localStorage.setItem(app.storageKey, JSON.stringify(self.list))
+			app.TodoList.save(this.list)
         }
 
         // Total amount of Todos completed
@@ -63,7 +63,7 @@ var app = app || {};
         this.save = function(prop) {
             return function(v) {
                 prop(v)
-                window.localStorage.setItem(app.storageKey, JSON.stringify(self.list))
+				app.TodoList.save(this.list)
             }
         }
     };
