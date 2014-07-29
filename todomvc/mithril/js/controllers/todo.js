@@ -64,8 +64,8 @@ var app = app || {};
             return function(v) {
                 prop(v)
 				app.TodoList.save(this.list)
-            }
-        }
+            }.bind(this)
+        }.bind(this)
     };
     
 })();
