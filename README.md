@@ -8,7 +8,7 @@ Performance benchmarks for various TodoMVC implementations
 
 ### Overall:
 
-Ractive, Mithril and React are kings. Mercury is a close fourth.
+Ractive and React are kings. Mercury, Vue and Mithril are just behind.
 
 Ember is the slowest overall; Angular and Knockout are trailing too.
 
