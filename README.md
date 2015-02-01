@@ -4,13 +4,13 @@ Performance benchmarks for various TodoMVC implementations
 
 ## Results
 
-*  OS X 10.8.5: Hackintosh (4xCore i7 @3.6GHz)
+*  OS X 10.10: Hackintosh (4xCore i7 @3.6GHz)
 
 ### Overall:
 
-Ractive and React are kings. Mercury, Vue and Mithril are just behind.
+Vue and Mithril are kings.
 
-Ember is the slowest overall; Angular and Knockout are trailing too.
+React+Flux  is the slowest overall; Ember is trailing behind too.
 
 ### Chrome 40, OS X
 ![Chrome](Chrome.png)
@@ -18,5 +18,5 @@ Ember is the slowest overall; Angular and Knockout are trailing too.
 ### Firefox 35, OS X
 ![Firefox](Firefox.png)
 
-### Safari 6.2, OS X
+### Safari 8, OS X
 ![Safari](Safari.png)
