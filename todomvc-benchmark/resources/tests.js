@@ -38,6 +38,42 @@ Suites.push({
     ]
 });
 
+
+Suites.push({
+    name: 'Riot',
+    url: 'todomvc/riot/index.html',
+    version: '2.0.1',
+    prepare: function (runner, contentWindow, contentDocument) {
+        return runner.waitForElement('#new-todo').then(function (element) {
+            element.focus();
+            return element;
+        });
+    },
+    tests: [
+        new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+            var submitEvent = document.createEvent('Event');
+            submitEvent.initEvent('submit', true, true);
+            for (var i = 0; i < numberOfItemsToAdd; i++) {
+                var keydownEvent = document.createEvent('Event');
+                keydownEvent.initEvent('keydown', true, true);
+                newTodo.value = 'Something to do ' + i;
+                newTodo.dispatchEvent(keydownEvent);
+                newTodo.form.dispatchEvent(submitEvent);
+            }
+        }),
+        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkboxes = contentDocument.querySelectorAll('.toggle');
+            for (var i = 0; i < checkboxes.length; i++)
+                checkboxes[i].click();
+        }),
+        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var deleteButtons = contentDocument.querySelectorAll('.destroy');
+            for (var i = 0; i < deleteButtons.length; i++)
+                deleteButtons[i].click();
+        })
+    ]
+});
+
 Suites.push({
     name: 'Vue',
     url: 'todomvc/vue/index.html',
