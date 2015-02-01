@@ -38,41 +38,42 @@ Suites.push({
     ]
 });
 
-
-Suites.push({
-    name: 'Riot',
-    url: 'todomvc/riot/index.html',
-    version: '2.0.1',
-    prepare: function (runner, contentWindow, contentDocument) {
-        return runner.waitForElement('#new-todo').then(function (element) {
-            element.focus();
-            return element;
-        });
-    },
-    tests: [
-        new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
-            var submitEvent = document.createEvent('Event');
-            submitEvent.initEvent('submit', true, true);
-            for (var i = 0; i < numberOfItemsToAdd; i++) {
-                var keydownEvent = document.createEvent('Event');
-                keydownEvent.initEvent('keydown', true, true);
-                newTodo.value = 'Something to do ' + i;
-                newTodo.dispatchEvent(keydownEvent);
-                newTodo.form.dispatchEvent(submitEvent);
-            }
-        }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
-        }),
-        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
-        })
-    ]
-});
+// Needs fixing!
+//
+// Suites.push({
+//     name: 'Riot',
+//     url: 'todomvc/riot/index.html',
+//     version: '2.0.1',
+//     prepare: function (runner, contentWindow, contentDocument) {
+//         return runner.waitForElement('#new-todo').then(function (element) {
+//             element.focus();
+//             return element;
+//         });
+//     },
+//     tests: [
+//         new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+//             var submitEvent = document.createEvent('Event');
+//             submitEvent.initEvent('submit', true, true);
+//             for (var i = 0; i < numberOfItemsToAdd; i++) {
+//                 var keydownEvent = document.createEvent('Event');
+//                 keydownEvent.initEvent('keydown', true, true);
+//                 newTodo.value = 'Something to do ' + i;
+//                 newTodo.dispatchEvent(keydownEvent);
+//                 newTodo.form.dispatchEvent(submitEvent);
+//             }
+//         }),
+//         new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var checkboxes = contentDocument.querySelectorAll('.toggle');
+//             for (var i = 0; i < checkboxes.length; i++)
+//                 checkboxes[i].click();
+//         }),
+//         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var deleteButtons = contentDocument.querySelectorAll('.destroy');
+//             for (var i = 0; i < deleteButtons.length; i++)
+//                 deleteButtons[i].click();
+//         })
+//     ]
+// });
 
 Suites.push({
     name: 'Vue',
@@ -227,7 +228,7 @@ Suites.push({
 Suites.push({
     name: 'Angular',
     url: 'todomvc/angularjs-perf/index.html',
-    version: '1.4.2-beta.2',
+    version: '1.3.x',
     prepare: function (runner, contentWindow, contentDocument) {
         return runner.waitForElement('#new-todo').then(function (element) {
             element.focus();
@@ -241,7 +242,7 @@ Suites.push({
             for (var i = 0; i < numberOfItemsToAdd; i++) {
                 var inputEvent = document.createEvent('Event');
                 inputEvent.initEvent('input', true, true);
-                newTodo.value = 'Angular ------- Something to do ' + i;
+                newTodo.value = 'Something to do ' + i;
                 newTodo.dispatchEvent(inputEvent);
                 newTodo.form.dispatchEvent(submitEvent);
             }
@@ -253,7 +254,7 @@ Suites.push({
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
             var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = deleteButtons.length - 1; i > -1; i--)
+            for (var i = 0; i < deleteButtons.length; i++)
                 deleteButtons[i].click();
         })
     ]
@@ -262,7 +263,7 @@ Suites.push({
 Suites.push({
     name: 'React',
     url: 'todomvc/react/index.html',
-    version: '0.12.2',
+    version: '0.10.0',
     prepare: function (runner, contentWindow, contentDocument) {
         contentWindow.Utils.store = function () {}
         return runner.waitForElement('#new-todo').then(function (element) {
@@ -276,7 +277,7 @@ Suites.push({
                 var keydownEvent = document.createEvent('Event');
                 keydownEvent.initEvent('keydown', true, true);
                 keydownEvent.which = 13; // VK_ENTER
-                newTodo.value = 'React --------- Something to do ' + i;
+                newTodo.value = 'Something to do ' + i;
                 newTodo.dispatchEvent(keydownEvent);
             }
         }),
@@ -287,17 +288,18 @@ Suites.push({
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
             var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = deleteButtons.length - 1; i > -1; i--)
+            for (var i = 0; i < deleteButtons.length; i++)
                 deleteButtons[i].click();
         })
     ]
 });
 
 Suites.push({
-    name: 'Om',
-    url: 'todomvc/om/index.html',
-    version: '? + React 0.8.0',
+    name: 'Flux+React',
+    url: 'todomvc/flux-react/index.html',
+    version: '0.12.0',
     prepare: function (runner, contentWindow, contentDocument) {
+        //contentWindow.Utils.store = function () {}
         return runner.waitForElement('#new-todo').then(function (element) {
             element.focus();
             return element;
@@ -305,12 +307,14 @@ Suites.push({
     },
     tests: [
         new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
-            var todomvc = contentWindow.todomvc;
             for (var i = 0; i < numberOfItemsToAdd; i++) {
-                var keydownEvent = document.createEvent('Event');
+                var keydownEvent = document.createEvent('Event'), inputEvent = document.createEvent('Event');
+                inputEvent.initEvent('input', true, true);
                 keydownEvent.initEvent('keydown', true, true);
                 keydownEvent.which = 13; // VK_ENTER
-                newTodo.value = 'Om.? React.8 -- Something to do ' + i;
+                keydownEvent.keyCode = 13; // VK_ENTER
+                newTodo.value = 'Something to do ' + i;
+                newTodo.dispatchEvent(inputEvent);
                 newTodo.dispatchEvent(keydownEvent);
             }
         }),
@@ -321,46 +325,82 @@ Suites.push({
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
             var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = deleteButtons.length - 1; i > -1; i--)
+            for (var i = 0; i < deleteButtons.length; i++)
                 deleteButtons[i].click();
         })
     ]
 });
 
-Suites.push({
-    name: 'Om v',
-    url: 'todomvc/om05/index.html',
-    version: '0.5.0 + React 0.9.0',
-    prepare: function (runner, contentWindow, contentDocument) {
-        return runner.waitForElement('#new-todo').then(function (element) {
-            element.focus();
-            return element;
-        });
-    },
-    tests: [
-        new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
-            var todomvc = contentWindow.todomvc;
-            for (var i = 0; i < numberOfItemsToAdd; i++) {
-                var keydownEvent = document.createEvent('Event');
-                keydownEvent.initEvent('keydown', true, true);
-                keydownEvent.which = 13; // VK_ENTER
-                newTodo.value = 'Om.5 React.9 -- Something to do ' + i;
-                newTodo.dispatchEvent(keydownEvent);
-            }
-        }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
-        }),
-        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = deleteButtons.length - 1; i > -1; i--)
-                deleteButtons[i].click();
-        })
-    ]
-});
 
+//
+// Suites.push({
+//     name: 'Om',
+//     url: 'todomvc/om/index.html',
+//     version: '? + React 0.8.0',
+//     prepare: function (runner, contentWindow, contentDocument) {
+//         return runner.waitForElement('#new-todo').then(function (element) {
+//             element.focus();
+//             return element;
+//         });
+//     },
+//     tests: [
+//         new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+//             var todomvc = contentWindow.todomvc;
+//             for (var i = 0; i < numberOfItemsToAdd; i++) {
+//                 var keydownEvent = document.createEvent('Event');
+//                 keydownEvent.initEvent('keydown', true, true);
+//                 keydownEvent.which = 13; // VK_ENTER
+//                 newTodo.value = 'Om.? React.8 -- Something to do ' + i;
+//                 newTodo.dispatchEvent(keydownEvent);
+//             }
+//         }),
+//         new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var checkboxes = contentDocument.querySelectorAll('.toggle');
+//             for (var i = 0; i < checkboxes.length; i++)
+//                 checkboxes[i].click();
+//         }),
+//         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var deleteButtons = contentDocument.querySelectorAll('.destroy');
+//             for (var i = deleteButtons.length - 1; i > -1; i--)
+//                 deleteButtons[i].click();
+//         })
+//     ]
+// });
+//
+// Suites.push({
+//     name: 'Om v',
+//     url: 'todomvc/om05/index.html',
+//     version: '0.5.0 + React 0.9.0',
+//     prepare: function (runner, contentWindow, contentDocument) {
+//         return runner.waitForElement('#new-todo').then(function (element) {
+//             element.focus();
+//             return element;
+//         });
+//     },
+//     tests: [
+//         new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+//             var todomvc = contentWindow.todomvc;
+//             for (var i = 0; i < numberOfItemsToAdd; i++) {
+//                 var keydownEvent = document.createEvent('Event');
+//                 keydownEvent.initEvent('keydown', true, true);
+//                 keydownEvent.which = 13; // VK_ENTER
+//                 newTodo.value = 'Om.5 React.9 -- Something to do ' + i;
+//                 newTodo.dispatchEvent(keydownEvent);
+//             }
+//         }),
+//         new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var checkboxes = contentDocument.querySelectorAll('.toggle');
+//             for (var i = 0; i < checkboxes.length; i++)
+//                 checkboxes[i].click();
+//         }),
+//         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+//             var deleteButtons = contentDocument.querySelectorAll('.destroy');
+//             for (var i = deleteButtons.length - 1; i > -1; i--)
+//                 deleteButtons[i].click();
+//         })
+//     ]
+// });
+//
 Suites.push({
     name: 'Ractive',
     url: 'todomvc/ractive/index.html',

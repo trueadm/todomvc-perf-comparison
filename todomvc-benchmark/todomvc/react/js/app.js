@@ -28,12 +28,12 @@
 		},
 
 		componentDidMount: function () {
-			// var router = Router({
-			// 	'/': this.setState.bind(this, {nowShowing: ALL_TODOS}),
-			// 	'/active': this.setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-			// 	'/completed': this.setState.bind(this, {nowShowing: COMPLETED_TODOS})
-			// });
-			// router.init();
+			var router = Router({
+				'/': this.setState.bind(this, {nowShowing: ALL_TODOS}),
+				'/active': this.setState.bind(this, {nowShowing: ACTIVE_TODOS}),
+				'/completed': this.setState.bind(this, {nowShowing: COMPLETED_TODOS})
+			});
+			router.init();
 			this.refs.newField.getDOMNode().focus();
 		},
 

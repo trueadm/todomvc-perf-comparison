@@ -32,9 +32,10 @@
 		// Whenever the model changes (including child properties like
 		// `items[1].completed`)...
 		todoList.observe('items', function (items) {
-
 			// ...we persist it to localStorage
-			localStorage.setItem('todos-ractive', JSON.stringify(items.map(removeEditingState)));
+			if(items) {
+				localStorage.setItem('todos-ractive', JSON.stringify(items.map(removeEditingState)));
+			}
 		});
 	} else {
 		items = [];
