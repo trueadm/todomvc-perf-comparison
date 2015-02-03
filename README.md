@@ -20,3 +20,6 @@ React+Flux  is the slowest overall; Ember is trailing behind too.
 
 ### Safari 8, OS X
 ![Safari](Safari.png)
+
+### Safari iOS 8, iPhone 6
+![iOS](iOS.png)
